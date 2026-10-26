@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080a0f">
+<title>D7O | Blood Strike Hall of Fame</title>
+<style>
+:root{--bg:#080808;--panel:#111111;--panel2:#191919;--line:#353535;--red:#f0f0f0;--gold:#ffffff;--silver:#d8d8d8;--bronze:#a8a8a8;--text:#f7f7f7;--muted:#a6a6a6;--cyan:#d9d9d9}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--text);font-family:Tahoma,Arial,sans-serif;background:radial-gradient(ellipse at 50% -12%,#303030 0,transparent 42%),linear-gradient(135deg,#050505,#111111 50%,#080808);overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.13;background-image:linear-gradient(#77869b18 1px,transparent 1px),linear-gradient(90deg,#77869b18 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,#000,transparent 80%)}
+.wrap{position:relative;max-width:1160px;margin:auto;padding:22px 16px 42px}
+header{position:relative;overflow:hidden;text-align:center;padding:24px 18px 30px;border:1px solid #414141;border-radius:22px;background:linear-gradient(120deg,#202020ee,#111111f2 52%,#252525ee);box-shadow:0 20px 65px #0008}
+header:before,header:after{content:"";position:absolute;width:260px;height:260px;border:1px solid #ffffff20;transform:rotate(45deg);pointer-events:none}
+header:before{right:-150px;top:-160px}header:after{left:-150px;bottom:-190px}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:10px;color:var(--muted);font-size:11px;letter-spacing:1.2px;text-transform:uppercase}
+.live{display:inline-flex;align-items:center;gap:7px;color:#e8e8e8}.dot{width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 12px var(--red)}
+.avatar{display:block;width:92px;height:92px;object-fit:cover;border-radius:50%;margin:17px auto 10px;border:3px solid #f0f0f0;box-shadow:0 0 0 5px #f0f0f020,0 0 35px #f0f0f040;background:#171d27}
+.kicker{font-size:11px;font-weight:bold;letter-spacing:3px;color:var(--cyan)}
+h1{margin:12px 0 8px;font-size:clamp(27px,5.5vw,46px);line-height:1.25;text-shadow:0 3px 25px #0009}h1 span{color:var(--red)}
+.sub{max-width:680px;margin:0 auto;color:#b7c0ce;line-height:1.9;font-size:14px}
+.header-tags{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:18px}.tag{border:1px solid #3a4555;background:#0b1018b8;border-radius:7px;padding:7px 10px;font-size:10px;color:#c9d4e3;letter-spacing:.6px}
+
+.giveaway{display:flex;align-items:center;gap:17px;margin:16px 0;padding:20px;border:1px solid #555;border-radius:16px;background:linear-gradient(115deg,#1d1d1d,#0c0c0c 65%);box-shadow:0 14px 35px #0008;position:relative;overflow:hidden}
+.giveaway:after{content:"";position:absolute;left:-35px;top:-55px;width:150px;height:150px;border:1px solid #ffffff20;transform:rotate(45deg)}
+.giveaway-icon{flex:0 0 62px;width:62px;height:62px;display:grid;place-items:center;border-radius:15px;background:#292929;border:1px solid #555;font-size:30px}
+.giveaway-copy{position:relative;z-index:1}.giveaway-kicker{font-size:10px;letter-spacing:2px;color:#bdbdbd;font-weight:bold}
+.giveaway h2{font-size:clamp(18px,3vw,25px);margin:7px 0;color:#fff}
+.giveaway p{margin:6px 0;color:#d1d1d1;line-height:1.85;font-size:13px}.giveaway strong{color:#fff;border-bottom:1px solid #aaa}
+.giveaway .giveaway-foot{color:#a8a8a8;font-size:11px}
+.copy-id{display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-top:7px;padding:6px 9px;border-radius:7px;border:1px solid #4a4a4a;background:#222;color:#fff;font:inherit;font-size:10px;cursor:pointer;transition:background .15s,border-color .15s}
+.copy-id:hover{background:#3a3a3a;border-color:#aaa}.copy-id:focus-visible{outline:2px solid white;outline-offset:2px}
+.copy-id.copied{background:#333;border-color:#fff}
+.copy-note{font-size:10px;color:#cfcfcf;margin-top:4px;min-height:12px}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:15px 0 25px}
+.stat{position:relative;overflow:hidden;background:linear-gradient(145deg,#161c26,#10141b);border:1px solid var(--line);border-radius:14px;padding:15px;text-align:center}
+.stat:after{content:"";position:absolute;bottom:0;right:15%;left:15%;height:2px;background:var(--red);opacity:.7}
+.stat strong{display:block;font-size:25px;color:var(--gold);font-variant-numeric:tabular-nums}.stat span{display:block;color:var(--muted);font-size:11px;margin-top:5px}
+.section-title{display:flex;align-items:center;gap:10px;margin:25px 0 14px;font-size:16px;font-weight:bold}.section-title:before{content:"";width:4px;height:22px;background:var(--red);border-radius:4px;box-shadow:0 0 14px #f0f0f066}.section-title small{margin-right:auto;color:var(--muted);font-size:10px;font-weight:normal}
+.podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:end;margin:0 0 28px}
+.champion{position:relative;overflow:hidden;min-height:205px;padding:19px 12px 17px;text-align:center;border:1px solid var(--line);border-radius:17px;background:linear-gradient(155deg,#1a202b,#11151c);box-shadow:0 12px 30px #0003}
+.champion:before{content:"";position:absolute;inset:0 0 auto;height:3px;background:var(--medal)}
+.champion.first{min-height:235px;background:radial-gradient(ellipse at top,#6b5124aa,transparent 60%),linear-gradient(155deg,#262219,#13151b);border-color:#9b793b;order:2;box-shadow:0 0 35px #d8a93b12}
+.champion.second{order:1;--medal:var(--silver)}.champion.first{--medal:var(--gold)}.champion.third{order:3;--medal:var(--bronze)}
+.medal{width:56px;height:56px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;border-radius:50%;font-size:26px;color:#15171b;background:radial-gradient(circle at 32% 25%,#fff8c9,var(--medal) 53%,#87652b);box-shadow:0 0 22px #ffffff12;border:2px solid #ffffff30}
+.second .medal{background:radial-gradient(circle at 30% 25%,#fff,var(--silver) 52%,#7d8a9a)}.third .medal{background:radial-gradient(circle at 30% 25%,#ffe1c8,var(--bronze) 52%,#7b4427)}
+.place{font-size:10px;letter-spacing:1.8px;color:var(--medal);font-weight:bold}.title{margin:7px 0 9px;font-size:15px;font-weight:bold}
+.champion .name{font-size:20px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.champion .region{font-size:11px;color:var(--muted);margin-top:5px}
+.bigscore{font-size:25px;font-weight:900;color:var(--medal);margin-top:12px;font-variant-numeric:tabular-nums}.bigscore small{font-size:10px;color:var(--muted);font-weight:normal}
+.champ-id{display:inline-block;direction:ltr;margin-top:8px;padding:5px 8px;border:1px solid #ffffff18;background:#080b10aa;border-radius:7px;color:#b9c5d6;font-size:10px}
+.unfilled{opacity:.7}.unfilled .name{font-size:16px;color:#aeb8c8}
+.toolbar{display:flex;gap:10px;align-items:center;margin:0 0 10px}.search{width:100%;background:#10151d;border:1px solid #454545;border-radius:10px;color:var(--text);padding:13px 14px;font:inherit;outline:none}.search:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #dddddd1c}
+.note{font-size:11px;color:var(--muted);line-height:1.8;margin:12px 2px 16px}
+.table-shell{overflow-x:auto;border:1px solid #293342;border-radius:14px;background:#0e1219c9}
+table{width:100%;min-width:650px;border-collapse:collapse}thead{background:#171e28}thead th{color:#9eacbf;font-size:10px;font-weight:bold;padding:13px 14px;text-align:right;letter-spacing:.6px}
+tbody tr{background:#10151d;transition:background .15s}tbody tr:nth-child(even){background:#121821}tbody tr:hover{background:#202a38}
+td{padding:13px 14px;border-top:1px solid #222c39}td:first-child{width:65px;text-align:center}
+.rank{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border:1px solid #364254;background:#1a222e;border-radius:8px;font-weight:bold;color:#d8e1ed}
+.top1 .rank{border-color:#b48b36;color:var(--gold);background:#342b19}.top2 .rank{border-color:#8d9cad;color:var(--silver);background:#252d38}.top3 .rank{border-color:#9c6749;color:var(--bronze);background:#34251e}
+.player{font-weight:bold}.region{font-size:10px;color:var(--muted);margin-top:5px}
+.player-id{display:inline-flex;direction:ltr;align-items:center;gap:5px;margin-top:7px;font-size:10px;color:#91a3b9;background:#0b1017;border:1px solid #293444;padding:5px 8px;border-radius:6px;font-family:Consolas,monospace}
+.scorebox{display:flex;align-items:center;gap:10px;min-width:110px}.score{font-weight:900;color:var(--gold);min-width:45px;font-variant-numeric:tabular-nums}.bar{height:5px;background:#293342;border-radius:99px;overflow:hidden;flex:1;max-width:120px}.bar i{display:block;height:100%;background:linear-gradient(90deg,#777777,#ffffff);border-radius:99px}
+.empty{color:#748196;font-weight:normal}.badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;padding:6px 8px;border-radius:6px;border:1px solid #303b4b;background:#18212d;color:#b9c6d8;white-space:nowrap}
+.top1 .badge{border-color:#8e6c2c;color:var(--gold);background:#2b2418}.top2 .badge{border-color:#657383;color:var(--silver)}.top3 .badge{border-color:#86583d;color:var(--bronze)}
+footer{text-align:center;color:#748196;font-size:11px;margin-top:25px;line-height:2}.brand{color:var(--red);font-weight:900}
+@media(max-width:650px){
+ .giveaway{align-items:flex-start;gap:11px;padding:14px}.giveaway-icon{flex-basis:45px;width:45px;height:45px;font-size:23px;border-radius:11px}.giveaway p{font-size:11px}.giveaway .giveaway-foot{font-size:10px}
+ .wrap{padding:10px 8px 28px}.topline{font-size:8px}.avatar{width:76px;height:76px}
+ header{padding:20px 11px 22px;border-radius:16px}.sub{font-size:12px}.kicker{font-size:9px;letter-spacing:2px}
+ .stats{gap:7px;margin-bottom:22px}.stat{padding:12px 5px}.stat strong{font-size:21px}.stat span{font-size:9px}
+ .podium{gap:7px}.champion{min-height:198px;padding:14px 5px 12px;border-radius:12px}.champion.first{min-height:218px}
+ .medal{width:43px;height:43px;font-size:21px}.place{font-size:8px;letter-spacing:1px}.title{font-size:11px;line-height:1.5}.champion .name{font-size:14px}.champion .region{font-size:9px}.bigscore{font-size:21px}.champ-id{font-size:8px;padding:4px}
+ thead th{padding:11px 9px;font-size:9px}td{padding:11px 9px}.rank{width:27px;height:27px}.badge{font-size:9px;padding:5px 6px}.bar{display:none}.scorebox{min-width:60px}.score{min-width:auto}
+}
+.channel-link{text-align:center;margin:12px auto 4px}
+.channel-link a{display:inline-block;color:#fff;border:1px solid #777;border-radius:8px;padding:8px 24px;text-decoration:none;font-weight:900;letter-spacing:2px;background:#111}
+.channel-link a:hover{background:#252525;border-color:#fff}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="topline"><span>⚔ D7O • PLAYER RATINGS</span><span class="live"><i class="dot"></i> HALL OF FAME</span></div>
+  <img class="avatar" src="https://yt3.googleusercontent.com/EOZ4RVYA_Y11TthiM0KybSYOuT_9ey8yRI1JqKWtqVS-Gu5MhVQonZv9FyGLryadnRloYzjl=s160-c-k-c0x00ffffff-no-rj" alt="أيقونة قناة D7O" onerror="this.style.display='none'">
+  <div class="kicker">BLOOD STRIKE • COMMUNITY RANKING</div>
+  <h1>لوحة <span>متصدري تقييم دحو</span></h1>
+  <p class="sub">ساحة الشرف لأقوى الحسابات التي قيّمها دحو. أثبت مستواك، اصعد في الترتيب، واحجز مكانك بين الأساطير.</p>
+  <div class="header-tags"><span class="tag">TOP 20 PLAYERS</span><span class="tag">RATED BY D7O</span><span class="tag">BLOOD STRIKE</span></div>
+  <div class="channel-link"><a href="https://www.youtube.com/@D7OXBS1" target="_blank" rel="noopener noreferrer">D7O</a></div>
+</header>
+<section class="giveaway" aria-label="سحب وجوائز">
+  <div class="giveaway-icon">🎁</div>
+  <div class="giveaway-copy">
+    <div class="giveaway-kicker">D7O COMMUNITY REWARDS</div>
+    <h2>🏆 سحب عشوائي على المتصدرين!</h2>
+    <p>سيتم اختيار <strong>5 فائزين عشوائيًا</strong> من المتصدرين في هذه القائمة، ويحصل كل فائز على <strong>100 Gold</strong>. 🎮✨</p>
+    <p class="giveaway-foot">📌 ملاحظة: يبدأ العمل بهذا النظام عند وصول القناة إلى <strong>1,000 مشترك</strong>. تابع قناة D7O وابقَ ضمن قائمة المتصدرين للمشاركة في السحب!</p>
+  </div>
+</section>
+<section class="stats">
+  <div class="stat"><strong id="ratedCount">10</strong><span>حسابات تم تقييمها</span></div>
+  <div class="stat"><strong id="bestScore">9.2</strong><span>أعلى تقييم / 10</span></div>
+  <div class="stat"><strong>20</strong><span>مقعدًا في لوحة الشرف</span></div>
+</section>
+<div class="section-title">🏆 منصة الأبطال <small>THE PODIUM</small></div>
+<section class="podium" id="podium"></section>
+<div class="section-title">⚡ الترتيب الكامل <small>FULL RANKING</small></div>
+<div class="toolbar"><input id="search" class="search" type="search" placeholder="ابحث عن اسم اللاعب أو البلد أو الـ ID..." aria-label="ابحث عن اسم اللاعب أو البلد أو ID"></div>
+<p class="note">تظهر أيدي اللاعبين بجانب تفاصيل كل حساب. عدّل الاسم والبلد والـ ID والدرجة في قائمة players أسفل الملف، ثم ارفع النسخة الجديدة إلى الاستضافة لتحديث اللوحة العامة.</p>
+<div class="table-shell"><table>
+<thead><tr><th>المركز</th><th>اللاعب وتفاصيل الحساب</th><th>التقييم</th><th>اللقب</th></tr></thead>
+<tbody id="ranking"></tbody>
+</table></div>
+<footer>DESIGNED FOR <span class="brand">D7O</span> COMMUNITY<br>Blood Strike • D7O SONGS OFFICIAL</footer>
+</div>
+<script>
+// عدّل name وregion وid وscore لكل لاعب. الدرجة من 10. اترك score:null للحسابات غير المقيمة.
+const players = [
+  {name:"زعيم", region:"اليمن", id:"9999999", score:9.2},
+  {name:"Yassin", region:"مصر", id:"9999999", score:7.8},
+  {name:"Nook", region:"العراق", id:"9999999", score:7.7},
+  {name:"Hamza", region:"غير معروف", id:"9999999", score:7.5},
+  {name:"Solo", region:"الجزائر", id:"9999999", score:7.5},
+  {name:"Momo", region:"الجزائر", id:"9999999", score:7.2},
+  {name:"Specter", region:"ليبيا", id:"9999999", score:7.1},
+  {name:"Adam", region:"سوريا", id:"9999999", score:6.5},
+  {name:"Ziko", region:"غير معروف", id:"9999999", score:6.0},
+  {name:"Rami", region:"الجزائر", id:"9999999", score:6.0},
+  {name:"أضف اسم المتابع 11", region:"بانتظار التقييم", id:"9999999", score:null},
+  {name:"أضف اسم المتابع 12", region:"بانتظار التقييم", id:"9999999", score:null},
+  {name:"أضف اسم المتابع 13", region:"بانتظار التقييم", id:"9999999", score:null},
+  {name:"أضف اسم المتابع 14", region:"بانتظار التقييم", id:"9999999", score:null},
+  {name:"أضف اسم المتابع 15", region:"بانتظار التقييم", id:"9999999", score:null},
+  {name:"أضف اسم المتابع 16", region:"بانتظار التقييم", id:"9999999", score:null},
+  {name:"أضف اسم المتابع 17", region:"بانتظار التقييم", id:"9999999", score:null},
+  {name:"أضف اسم المتابع 18", region:"بانتظار التقييم", id:"9999999", score:null},
+  {name:"أضف اسم المتابع 19", region:"بانتظار التقييم", id:"9999999", score:null},
+  {name:"أضف اسم المتابع 20", region:"بانتظار التقييم", id:"9999999", score:null}
+];
+const tbody=document.getElementById("ranking"), podium=document.getElementById("podium");
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const medals=[
+ {rank:1,cls:"first",symbol:"♛",place:"1ST PLACE • GOLD",title:"👑 أسطورة دحو"},
+ {rank:2,cls:"second",symbol:"✦",place:"2ND PLACE • SILVER",title:"🛡️ النخبة الفضية"},
+ {rank:3,cls:"third",symbol:"⚔",place:"3RD PLACE • BRONZE",title:"🎖️ محارب البرونز"}
+];
+function sortedPlayers(){return [...players].sort((a,b)=>(b.score??-1)-(a.score??-1));}
+function render(){
+ const q=document.getElementById("search").value.trim().toLowerCase(),sorted=sortedPlayers();
+ const rated=players.filter(p=>typeof p.score==="number");
+ document.getElementById("ratedCount").textContent=rated.length;
+ document.getElementById("bestScore").textContent=rated.length?Math.max(...rated.map(p=>p.score)).toFixed(1):"—";
+ podium.innerHTML="";
+ medals.forEach(m=>{
+  const p=sorted[m.rank-1],empty=!p||typeof p.score!=="number",card=document.createElement("article");
+  card.className="champion "+m.cls+(empty?" unfilled":"");
+  card.innerHTML=`<div class="medal">${m.symbol}</div><div class="place">${m.place}</div><div class="title">${m.title}</div>
+   <div class="name">${esc(empty?"بانتظار المتصدر":p.name)}</div><div class="region">${esc(empty?"أضف تقييمًا للمنافسة":(p.region||"Blood Strike"))}</div>
+   <div class="bigscore">${empty?"—":p.score.toFixed(1)}<small> / 10</small></div>
+   <div class="champ-id">ID: ${esc(empty?"9999999":p.id||"9999999")}</div>
+   <button class="copy-id" type="button" data-copy-id="${esc(empty?"9999999":p.id||"9999999")}">📋 نسخ الـ ID</button>`;
+  podium.appendChild(card);
+ });
+ tbody.innerHTML="";
+ sorted.filter(p=>(p.name+" "+p.region+" "+(p.id||"")).toLowerCase().includes(q)).forEach(p=>{
+  const rank=sorted.indexOf(p)+1,empty=typeof p.score!=="number",tr=document.createElement("tr");
+  if(rank<=3&&!empty)tr.className="top"+rank;
+  const bar=empty?0:Math.max(0,Math.min(100,p.score*10));
+  const title=empty?"بانتظار التقييم":rank===1?"👑 أسطورة دحو":rank===2?"🛡️ النخبة الفضية":rank===3?"🎖️ محارب البرونز":rank<=5?"⚡ مقاتل النخبة":"🎯 مقاتل متميز";
+  tr.innerHTML=`<td><span class="rank">${rank}</span></td>
+   <td><div class="player ${empty?'empty':''}">${esc(p.name)}</div><div class="region">${esc(p.region||"")}</div><div class="player-id">ID: ${esc(p.id||"9999999")}</div><button class="copy-id" type="button" data-copy-id="${esc(p.id||"9999999")}">📋 نسخ الـ ID</button></td>
+   <td><div class="scorebox"><span class="score">${empty?"—":p.score.toFixed(1)+"/10"}</span><span class="bar"><i style="width:${bar}%"></i></span></div></td>
+   <td><span class="badge">${title}</span></td>`;
+  tbody.appendChild(tr);
+ });
+}
+document.getElementById("search").addEventListener("input",render);
+document.addEventListener("click",async e=>{
+ const btn=e.target.closest("[data-copy-id]");
+ if(!btn)return;
+ const value=btn.getAttribute("data-copy-id")||"9999999";
+ try{
+   if(navigator.clipboard && window.isSecureContext){await navigator.clipboard.writeText(value);}
+   else{
+     const temp=document.createElement("textarea");temp.value=value;temp.style.position="fixed";temp.style.opacity="0";document.body.appendChild(temp);temp.select();
+     const ok=document.execCommand("copy");temp.remove();if(!ok)throw new Error("copy failed");
+   }
+   const old=btn.textContent;btn.textContent="✅ تم النسخ";btn.classList.add("copied");
+   setTimeout(()=>{btn.textContent=old;btn.classList.remove("copied")},1400);
+ }catch(err){btn.textContent="انسخ يدويًا: "+value;}
+});
+render();
+</script>
+</body>
+</html>
