@@ -94,7 +94,7 @@ footer{text-align:center;color:#748196;font-size:11px;margin-top:25px;line-heigh
   <div class="giveaway-icon">🎁</div>
   <div class="giveaway-copy">
     <div class="giveaway-kicker">D7O COMMUNITY REWARDS</div>
-    <h2>🏆 سحب عشوائي على المتصدرين!</h2>
+    <h2>🏆 سحب عشوائي على المتصدرين في هاته اللوحة!</h2>
     <p>سيتم اختيار <strong>5 فائزين عشوائيًا</strong> من المتصدرين في هذه القائمة، ويحصل كل فائز على <strong>100 Gold</strong>. 🎮✨</p>
     <p class="giveaway-foot">📌 ملاحظة: يبدأ العمل بهذا النظام عند وصول القناة إلى <strong>1,000 مشترك</strong>. تابع قناة D7O وابقَ ضمن قائمة المتصدرين للمشاركة في السحب!</p>
   </div>
@@ -113,31 +113,34 @@ footer{text-align:center;color:#748196;font-size:11px;margin-top:25px;line-heigh
 <thead><tr><th>المركز</th><th>اللاعب وتفاصيل الحساب</th><th>التقييم</th><th>اللقب</th></tr></thead>
 <tbody id="ranking"></tbody>
 </table></div>
-<footer>DESIGNED FOR <span class="brand">D7O</span> COMMUNITY<br>Blood Strike • D7O SONGS OFFICIAL</footer>
+<footer>DESIGNED FOR <span class="brand">D7O</span> COMMUNITY<br>Blood Strike • D7O | عبدالرحمان</footer>
 </div>
 <script>
 // عدّل name وregion وid وscore لكل لاعب. الدرجة من 10. اترك score:null للحسابات غير المقيمة.
 const players = [
-  {name:"زعيم", region:"اليمن", id:"9999999", score:9.2},
-  {name:"Yassin", region:"مصر", id:"9999999", score:7.8},
-  {name:"Nook", region:"العراق", id:"9999999", score:7.7},
-  {name:"Hamza", region:"غير معروف", id:"9999999", score:7.5},
+  {name:"زعيم", region:"اليمن", id:"568846677588", score:9.2},
+  {name:"أبو بريص", region:"العراق", id:"293956833078", score:8.0},
+  {name:"Yassin", region:"مصر", id:"570979563511", score:7.8},
+  {name:"نيوك", region:"العراق", id:"570991336464", score:7.7},
+  {name:"الشيخ", region:"عربي", id:"570990352290", score:7.7},
+  {name:"MAHER", region:"فلسطين / الجزائر", id:"570993616067", score:7.7},
+  {name:"MAROGAMING", region:"مصر", id:"568839152776", score:7.6},
+  {name:"Hamza", region:"عربي", id:"568838341781", score:7.5},
   {name:"Solo", region:"الجزائر", id:"9999999", score:7.5},
-  {name:"Momo", region:"الجزائر", id:"9999999", score:7.2},
-  {name:"Specter", region:"ليبيا", id:"9999999", score:7.1},
-  {name:"Adam", region:"سوريا", id:"9999999", score:6.5},
-  {name:"Ziko", region:"غير معروف", id:"9999999", score:6.0},
-  {name:"Rami", region:"الجزائر", id:"9999999", score:6.0},
-  {name:"أضف اسم المتابع 11", region:"بانتظار التقييم", id:"9999999", score:null},
-  {name:"أضف اسم المتابع 12", region:"بانتظار التقييم", id:"9999999", score:null},
-  {name:"أضف اسم المتابع 13", region:"بانتظار التقييم", id:"9999999", score:null},
-  {name:"أضف اسم المتابع 14", region:"بانتظار التقييم", id:"9999999", score:null},
-  {name:"أضف اسم المتابع 15", region:"بانتظار التقييم", id:"9999999", score:null},
-  {name:"أضف اسم المتابع 16", region:"بانتظار التقييم", id:"9999999", score:null},
-  {name:"أضف اسم المتابع 17", region:"بانتظار التقييم", id:"9999999", score:null},
+  {name:"HAMANI", region:"الجزائر", id:"568842170418", score:7.5},
+  {name:"BLOODSHEDD", region:"عربي", id:"570991994994", score:7.4}, 
+  {name:"SHADOW", region:"عربي", id:"570991176375", score:7.3},
+  {name:"Specter", region:"ليبيا", id:"567769987440", score:7.1},
+  {name:"HANO", region:"المملكة العربية السعودية", id:"842641233822", score:7.0},
+  {name:"TILO", region:"المملكة العربية السعودية", id:"822646210026", score:7.0},
+  {name:"PRO", region:"ليبيا", id:"567774194262", score:6.5},
+  {name:"ADAM", region:"سوريا", id:"568845821520", score:6.5},
+  {name:"فهد", region:"المملكة العربية السعودية", id:"845861017308", score:6.3},
+  {name:"Ziko", region:"عربي", id:"845864224256", score:6.0},
+  {name:"Rami", region:"الجزائر", id:"567760843262", score:6.0},
   {name:"أضف اسم المتابع 18", region:"بانتظار التقييم", id:"9999999", score:null},
   {name:"أضف اسم المتابع 19", region:"بانتظار التقييم", id:"9999999", score:null},
-  {name:"أضف اسم المتابع 20", region:"بانتظار التقييم", id:"9999999", score:null}
+  {name:"أضف اسم المتابع 20", region:"بانتظار التقييم", id:"9999999", score:null},
 ];
 const tbody=document.getElementById("ranking"), podium=document.getElementById("podium");
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
