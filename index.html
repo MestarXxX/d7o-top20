@@ -36,7 +36,6 @@ h1{margin:12px 0 8px;font-size:clamp(27px,5.5vw,46px);line-height:1.25;text-shad
 .copy-id{display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-top:7px;padding:6px 9px;border-radius:7px;border:1px solid #4a4a4a;background:#222;color:#fff;font:inherit;font-size:10px;cursor:pointer;transition:background .15s,border-color .15s}
 .copy-id:hover{background:#3a3a3a;border-color:#aaa}.copy-id:focus-visible{outline:2px solid white;outline-offset:2px}
 .copy-id.copied{background:#333;border-color:#fff}
-.copy-note{font-size:10px;color:#cfcfcf;margin-top:4px;min-height:12px}
 
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:15px 0 25px}
 .stat{position:relative;overflow:hidden;background:linear-gradient(145deg,#161c26,#10141b);border:1px solid var(--line);border-radius:14px;padding:15px;text-align:center}
@@ -75,13 +74,12 @@ td{padding:13px 14px;border-top:1px solid #222c39}td:first-child{width:65px;text
 .player-id{display:inline-flex;direction:ltr;align-items:center;gap:5px;margin-top:7px;font-size:10px;color:#91a3b9;background:#0b1017;border:1px solid #293444;padding:5px 8px;border-radius:6px;font-family:Consolas,monospace}
 
 /* Voting Box Styles */
-.vote-box{display:inline-flex;align-items:center;gap:6px;background:#151c27;border:1px solid #323d4e;padding:4px 8px;border-radius:8px;margin-top:6px}
+.vote-box{display:inline-flex;align-items:center;gap:6px;background:#151c27;border:1px solid #323d4e;padding:5px 10px;border-radius:8px;margin-top:7px}
 .vote-btn{background:transparent;border:none;color:#fff;font-size:15px;cursor:pointer;padding:2px 6px;border-radius:4px;transition:background .15s}
 .vote-btn:hover{background:rgba(255,255,255,0.15)}
-.vote-count{font-size:12px;font-weight:bold;font-family:Consolas,monospace;min-width:30px;text-align:center}
-.vote-count.positive{color:#4ade80}
-.vote-count.negative{color:#f87171}
-.vote-count.neutral{color:#fff}
+.vote-count-up{font-size:12px;font-weight:bold;color:#4ade80;font-family:Consolas,monospace;min-width:25px;text-align:center}
+.vote-count-down{font-size:12px;font-weight:bold;color:#f87171;font-family:Consolas,monospace;min-width:25px;text-align:center}
+.vote-divider{color:#444}
 
 .scorebox{display:flex;align-items:center;gap:10px;min-width:110px}.score{font-weight:900;color:var(--gold);min-width:45px;font-variant-numeric:tabular-nums}.bar{height:5px;background:#293342;border-radius:99px;overflow:hidden;flex:1;max-width:120px}.bar i{display:block;height:100%;background:linear-gradient(90deg,#777777,#ffffff);border-radius:99px}
 .empty{color:#748196;font-weight:normal}.badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;padding:6px 8px;border-radius:6px;border:1px solid #303b4b;background:#18212d;color:#b9c6d8;white-space:nowrap}
@@ -138,7 +136,7 @@ footer{text-align:center;color:#748196;font-size:11px;margin-top:25px;line-heigh
 
 <div class="ranking-tabs">
   <button id="tabOfficial" class="tab-btn active" type="button">🏆 ترتيب دحو الرسمي</button>
-  <button id="tabCommunity" class="tab-btn" type="button">⚡ تصنيف الجمهور (التصويت)</button>
+  <button id="tabCommunity" class="tab-btn" type="button">⚡ تصنيف الجمهور (حسب الأسهم للأعلى ⬆️)</button>
 </div>
 
 <div class="section-title"><span id="sectionTitleText">🏆 منصة الأبطال</span> <small id="sectionTitleSub">THE PODIUM</small></div>
@@ -149,7 +147,7 @@ footer{text-align:center;color:#748196;font-size:11px;margin-top:25px;line-heigh
 <p class="note">ملاحظة مهمة : يتم تحديث هاته القائمة بشكل دوري بعد زيادة 500 مشترك في قناتي لذلك قد تكون بعض البيانات فيها قديمة أو غير محدثة</p>
 
 <div class="table-shell"><table>
-<thead id="tableHeader"><tr><th>المركز</th><th>اللاعب وتفاصيل الحساب والتصويت</th><th>التقييم</th><th>اللقب</th></tr></thead>
+<thead id="tableHeader"><tr><th>المركز</th><th>اللاعب وتفاصيل الحساب والتصويت</th><th>التقييم الأصلي</th><th>اللقب</th></tr></thead>
 <tbody id="ranking"></tbody>
 </table></div>
 
@@ -185,7 +183,7 @@ try {
   console.warn("Firebase initialization warning:", e);
 }
 
-// بيانات اللاعبين الأصلية كاملة بدون أي نقصان أو تعديل
+// بيانات اللاعبين الأصلية كاملة دون أي تعديل أو نقص
 const players = [
   {name:"زعيم", region:"اليمن", id:"568846677588", score:9.2},
   {name:"أبو بريص", region:"العراق", id:"293956833078", score:8.0},
@@ -216,7 +214,7 @@ players.forEach(p => {
 
 let currentMode = "official"; // "official" أو "community"
 
-// جلب الأصوات من Firestore (مزامنة حية)
+// جلب الأصوات من Firestore (مزامنة حية بين جميع الزوار)
 function initVotes() {
   if (useFirebase && db) {
     db.collection("votes").onSnapshot(snapshot => {
@@ -253,7 +251,7 @@ function loadLocalVotes() {
 }
 
 async function castVote(playerId, type) {
-  // تحديث محلي فوري
+  // تحديث محلي فوري لاستجابة سريعة
   if (!votesData[playerId]) votesData[playerId] = { up: 0, down: 0 };
   if (type === 'up') votesData[playerId].up++;
   else if (type === 'down') votesData[playerId].down++;
@@ -262,7 +260,7 @@ async function castVote(playerId, type) {
     localStorage.setItem("d7o_player_votes", JSON.stringify(votesData));
   } catch(e) {}
 
-  // إرسال التحديث إلى Firebase
+  // إرسال التحديث إلى Firebase Firestore لتحديثه لدى جميع الزوار فوراً
   if (useFirebase && db) {
     try {
       const ref = db.collection("votes").doc(playerId);
@@ -295,13 +293,16 @@ const medals = [
 
 function getSortedPlayers() {
   if (currentMode === "official") {
+    // الترتيب حسب تقييم دحو الأصلي تنازلياً
     return [...players].sort((a,b) => (b.score ?? -1) - (a.score ?? -1));
   } else {
+    // تصنيف الجمهور يعتمد حصرياً على إجمالي الأسهم للأعلى (upvotes) من الأعلى إلى الأقل، دون أي اعتبار لتقييم دحو
     return [...players].sort((a,b) => {
-      const netA = (votesData[a.id]?.up || 0) - (votesData[a.id]?.down || 0);
-      const netB = (votesData[b.id]?.up || 0) - (votesData[b.id]?.down || 0);
-      if (netB !== netA) return netB - netA;
-      return (b.score ?? -1) - (a.score ?? -1);
+      const upA = votesData[a.id]?.up || 0;
+      const upB = votesData[b.id]?.up || 0;
+      if (upB !== upA) return upB - upA;
+      // في حال التساوي، حافظ على الترتيب الثابت الأصلي
+      return players.indexOf(a) - players.indexOf(b);
     });
   }
 }
@@ -315,28 +316,34 @@ function render() {
   document.getElementById("bestScore").textContent = rated.length ? Math.max(...rated.map(p => p.score)).toFixed(1) : "—";
   
   if (currentMode === "community") {
-    document.getElementById("sectionTitleText").textContent = "⚡ منصة تصويت الجمهور";
+    document.getElementById("sectionTitleText").textContent = "⚡ منصة تصويت الجمهور (حسب الأسهم للأعلى)";
     document.getElementById("fullTitleText").textContent = "⚡ الترتيب الكامل (تصنيف الجمهور)";
   } else {
     document.getElementById("sectionTitleText").textContent = "🏆 منصة الأبطال";
     document.getElementById("fullTitleText").textContent = "⚡ الترتيب الكامل";
   }
 
+  // رسم منصة التتويج (Podium)
   podium.innerHTML = "";
   medals.forEach(m => {
-    const p = sorted[m.rank-1], empty = !p || typeof p.score !== "number", card = document.createElement("article");
+    const p = sorted[m.rank-1], empty = !p, card = document.createElement("article");
     card.className = "champion " + m.cls + (empty ? " unfilled" : "");
-    const netVotes = p ? ((votesData[p.id]?.up || 0) - (votesData[p.id]?.down || 0)) : 0;
-    const scoreDisplay = currentMode === "official" ? (empty ? "—" : p.score.toFixed(1) + "<small> / 10</small>") : (netVotes + " <small>صوت صافي</small>");
+    const upVotes = p ? (votesData[p.id]?.up || 0) : 0;
+    
+    // عرض النتيجة في البطاقة حسب التبويب الحالي
+    const scoreDisplay = currentMode === "official" 
+      ? (typeof p.score === "number" ? p.score.toFixed(1) + "<small> / 10</small>" : "—") 
+      : (upVotes + " <small>سهم للأعلى ⬆️</small>");
 
     card.innerHTML = `<div class="medal">${m.symbol}</div><div class="place">${m.place}</div><div class="title">${m.title}</div>
-     <div class="name">${esc(empty ? "بانتظار المتصدر" : p.name)}</div><div class="region">${esc(empty ? "أضف تقييمًا للمنافسة" : (p.region || "Blood Strike"))}</div>
+     <div class="name">${esc(empty ? "بانتظار المتصدر" : p.name)}</div><div class="region">${esc(empty ? "" : (p.region || "Blood Strike"))}</div>
      <div class="bigscore">${scoreDisplay}</div>
      <div class="champ-id">ID: ${esc(empty ? "9999999" : p.id || "9999999")}</div>
      <button class="copy-id" type="button" data-copy-id="${esc(empty ? "9999999" : p.id || "9999999")}">📋 نسخ الـ ID</button>`;
     podium.appendChild(card);
   });
 
+  // رسم الجدول الكامل
   tbody.innerHTML = "";
   const filtered = sorted.filter(p => (p.name + " " + p.region + " " + (p.id || "")).toLowerCase().includes(q));
   
@@ -344,13 +351,9 @@ function render() {
     const rank = sorted.indexOf(p) + 1;
     const empty = typeof p.score !== "number";
     const tr = document.createElement("tr");
-    if (rank <= 3 && !empty) tr.className = "top" + rank;
+    if (rank <= 3) tr.className = "top" + rank;
     
     const v = votesData[p.id] || { up: 0, down: 0 };
-    const net = v.up - v.down;
-    const netClass = net > 0 ? "positive" : net < 0 ? "negative" : "neutral";
-    const netStr = net > 0 ? "+" + net : net;
-
     const bar = empty ? 0 : Math.max(0, Math.min(100, p.score * 10));
     const title = empty ? "بانتظار التقييم" : rank === 1 ? "👑 أسطورة دحو" : rank === 2 ? "🛡️ النخبة الفضية" : rank === 3 ? "🎖️ محارب البرونز" : rank <= 5 ? "⚡ مقاتل النخبة" : "🎯 مقاتل متميز";
 
@@ -361,9 +364,11 @@ function render() {
        <div class="player-id">ID: ${esc(p.id || "9999999")}</div>
        <button class="copy-id" type="button" data-copy-id="${esc(p.id || "9999999")}">📋 نسخ الـ ID</button>
        <div class="vote-box">
-         <button class="vote-btn" type="button" title="تصويت إيجابي" onclick="castVote('${p.id}', 'up')">⬆️</button>
-         <span class="vote-count ${netClass}" title="إيجابي: ${v.up} | سلبي: ${v.down}">${netStr}</span>
-         <button class="vote-btn" type="button" title="تصويت سلبي" onclick="castVote('${p.id}', 'down')">⬇️</button>
+         <button class="vote-btn" type="button" title="صوت للأعلى" onclick="castVote('${p.id}', 'up')">⬆️</button>
+         <span class="vote-count-up" title="الأسهم للأعلى">${v.up}</span>
+         <span class="vote-divider">|</span>
+         <button class="vote-btn" type="button" title="صوت للأسفل" onclick="castVote('${p.id}', 'down')">⬇️</button>
+         <span class="vote-count-down" title="الأسهم للأسفل">${v.down}</span>
        </div>
      </td>
      <td><div class="scorebox"><span class="score">${empty ? "—" : p.score.toFixed(1) + "/10"}</span><span class="bar"><i style="width:${bar}%"></i></span></div></td>
@@ -372,6 +377,7 @@ function render() {
   });
 }
 
+// تفاعل أزرار التبويبات
 document.getElementById("tabOfficial").addEventListener("click", () => {
   currentMode = "official";
   document.getElementById("tabOfficial").classList.add("active");
@@ -388,6 +394,7 @@ document.getElementById("tabCommunity").addEventListener("click", () => {
 
 document.getElementById("search").addEventListener("input", render);
 
+// نسخ المعرّف ID
 document.addEventListener("click", async e => {
   const btn = e.target.closest("[data-copy-id]");
   if (!btn) return;
@@ -403,6 +410,7 @@ document.addEventListener("click", async e => {
   } catch (err) { btn.textContent = "انسخ يدويًا: " + value; }
 });
 
+// تشغيل النظام وجلب الأصوات
 initVotes();
 </script>
 </body>
