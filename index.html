@@ -85,9 +85,6 @@ td{padding:13px 14px;border-top:1px solid #222c39}td:first-child{width:65px;text
 .empty{color:#748196;font-weight:normal}.badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;padding:6px 8px;border-radius:6px;border:1px solid #303b4b;background:#18212d;color:#b9c6d8;white-space:nowrap}
 .top1 .badge{border-color:#8e6c2c;color:var(--gold);background:#2b2418}.top2 .badge{border-color:#657383;color:var(--silver)}.top3 .badge{border-color:#86583d;color:var(--bronze)}
 
-/* Error Notification Box */
-#errorNotice{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#b91c1c;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;z-index:9999;display:none;box-shadow:0 4px 12px rgba(0,0,0,0.4)}
-
 footer{text-align:center;color:#748196;font-size:11px;margin-top:25px;line-height:2}.brand{color:var(--red);font-weight:900}
 @media(max-width:650px){
  .giveaway{align-items:flex-start;gap:11px;padding:14px}.giveaway-icon{flex-basis:45px;width:45px;height:45px;font-size:23px;border-radius:11px}.giveaway p{font-size:11px}.giveaway .giveaway-foot{font-size:10px}
@@ -105,9 +102,6 @@ footer{text-align:center;color:#748196;font-size:11px;margin-top:25px;line-heigh
 </head>
 <body>
 <div class="wrap">
-
-<!-- Error Notice Toast -->
-<div id="errorNotice">حدث خطأ أثناء حفظ التصويت، تحقق من الاتصال أو صلاحيات قاعدة البيانات.</div>
 
 <!-- Announcement Banner -->
 <div class="launch-announcement">
@@ -142,7 +136,7 @@ footer{text-align:center;color:#748196;font-size:11px;margin-top:25px;line-heigh
 
 <div class="ranking-tabs">
   <button id="tabOfficial" class="tab-btn active" type="button">🏆 ترتيب دحو الرسمي</button>
-  <button id="tabCommunity" class="tab-btn" type="button">⚡ تصنيف الجمهور (حسب الأسهم للأعلى ⬆️)</button>
+  <button id="tabCommunity" class="tab-btn" type="button">⚡ تصنيف الجمهور (حسب الإعجابات 👍)</button>
 </div>
 
 <div class="section-title"><span id="sectionTitleText">🏆 منصة الأبطال</span> <small id="sectionTitleSub">THE PODIUM</small></div>
@@ -213,32 +207,22 @@ const players = [
   {name:"Rami", region:"الجزائر", id:"567760843262", score:6.0},
 ];
 
-// تهيئة كائن الأصوات لجميع اللاعبين افتراضياً بـ 0
 let votesData = {};
 players.forEach(p => {
   votesData[p.id] = { up: 0, down: 0 };
 });
 
-let currentMode = "official"; // وضع التبويب الافتراضي: "official" أو "community"
+let currentMode = "official"; // "official" أو "community"
 
-// تنبيه الخطأ التفاعلي
-function showErrorNotice() {
-  const notice = document.getElementById("errorNotice");
-  notice.style.display = "block";
-  setTimeout(() => {
-    notice.style.display = "none";
-  }, 4000);
-}
-
-// مراقبة التغييرات الحية باستخدام onSnapshot من Firestore مع دمج البيانات بدقة
+// جلب الأصوات من Firestore (مزامنة حية بين جميع الزوار)
 function initVotes() {
   if (useFirebase && db) {
     db.collection("votes").onSnapshot(snapshot => {
       snapshot.forEach(doc => {
         const data = doc.data();
         if (votesData[doc.id]) {
-          votesData[doc.id].up = Number(data.up) || 0;
-          votesData[doc.id].down = Number(data.down) || 0;
+          votesData[doc.id].up = data.up || 0;
+          votesData[doc.id].down = data.down || 0;
         }
       });
       render();
@@ -258,8 +242,7 @@ function loadLocalVotes() {
       const parsed = JSON.parse(saved);
       Object.keys(parsed).forEach(id => {
         if (votesData[id]) {
-          votesData[id].up = Number(parsed[id].up) || 0;
-          votesData[id].down = Number(parsed[id].down) || 0;
+          votesData[id] = parsed[id];
         }
       });
     }
@@ -268,7 +251,7 @@ function loadLocalVotes() {
 }
 
 async function castVote(playerId, type) {
-  // تحديث محلي فوري لاستجابة سريعة في واجهة المستخدم
+  // تحديث محلي فوري لاستجابة سريعة
   if (!votesData[playerId]) votesData[playerId] = { up: 0, down: 0 };
   if (type === 'up') votesData[playerId].up++;
   else if (type === 'down') votesData[playerId].down++;
@@ -277,7 +260,7 @@ async function castVote(playerId, type) {
     localStorage.setItem("d7o_player_votes", JSON.stringify(votesData));
   } catch(e) {}
 
-  // إرسال المعاملات بأمان إلى Firebase Firestore وتحديثها لدى جميع الزوار
+  // إرسال التحديث إلى Firebase Firestore لتحديثه لدى جميع الزوار فوراً
   if (useFirebase && db) {
     try {
       const ref = db.collection("votes").doc(playerId);
@@ -285,8 +268,8 @@ async function castVote(playerId, type) {
         const doc = await transaction.get(ref);
         let up = 0, down = 0;
         if (doc.exists) {
-          up = Number(doc.data().up) || 0;
-          down = Number(doc.data().down) || 0;
+          up = doc.data().up || 0;
+          down = doc.data().down || 0;
         }
         if (type === 'up') up++;
         else down++;
@@ -294,7 +277,6 @@ async function castVote(playerId, type) {
       });
     } catch (e) {
       console.error("Error updating vote in Firestore:", e);
-      showErrorNotice();
     }
   }
   render();
@@ -314,11 +296,12 @@ function getSortedPlayers() {
     // الترتيب حسب تقييم دحو الأصلي تنازلياً
     return [...players].sort((a,b) => (b.score ?? -1) - (a.score ?? -1));
   } else {
-    // تصنيف الجمهور يعتمد حصرياً وكيلياً على إجمالي الأسهم للأعلى (up) تنازلياً، وعند التساوي يعود للترتيب الأصلي الثابت
+    // تصنيف الجمهور يعتمد حصرياً على إجمالي الإعجابات 👍 (upvotes) من الأعلى إلى الأقل، دون أي اعتبار لتقييم دحو
     return [...players].sort((a,b) => {
       const upA = votesData[a.id]?.up || 0;
       const upB = votesData[b.id]?.up || 0;
       if (upB !== upA) return upB - upA;
+      // في حال التساوي، حافظ على الترتيب الثابت الأصلي
       return players.indexOf(a) - players.indexOf(b);
     });
   }
@@ -333,23 +316,24 @@ function render() {
   document.getElementById("bestScore").textContent = rated.length ? Math.max(...rated.map(p => p.score)).toFixed(1) : "—";
   
   if (currentMode === "community") {
-    document.getElementById("sectionTitleText").textContent = "⚡ منصة تصويت الجمهور (حسب الأسهم للأعلى)";
+    document.getElementById("sectionTitleText").textContent = "⚡ منصة تصويت الجمهور (حسب الإعجابات 👍)";
     document.getElementById("fullTitleText").textContent = "⚡ الترتيب الكامل (تصنيف الجمهور)";
   } else {
     document.getElementById("sectionTitleText").textContent = "🏆 منصة الأبطال";
     document.getElementById("fullTitleText").textContent = "⚡ الترتيب الكامل";
   }
 
-  // رسم منصة التتويج (Podium) بناءً على الترتيب النشط حالياً
+  // رسم منصة التتويج (Podium)
   podium.innerHTML = "";
   medals.forEach(m => {
     const p = sorted[m.rank-1], empty = !p, card = document.createElement("article");
     card.className = "champion " + m.cls + (empty ? " unfilled" : "");
     const upVotes = p ? (votesData[p.id]?.up || 0) : 0;
     
+    // عرض النتيجة في البطاقة حسب التبويب الحالي
     const scoreDisplay = currentMode === "official" 
       ? (typeof p.score === "number" ? p.score.toFixed(1) + "<small> / 10</small>" : "—") 
-      : (upVotes + " <small>سهم للأعلى ⬆️</small>");
+      : (upVotes + " <small>إعجاب 👍</small>");
 
     card.innerHTML = `<div class="medal">${m.symbol}</div><div class="place">${m.place}</div><div class="title">${m.title}</div>
      <div class="name">${esc(empty ? "بانتظار المتصدر" : p.name)}</div><div class="region">${esc(empty ? "" : (p.region || "Blood Strike"))}</div>
@@ -359,7 +343,7 @@ function render() {
     podium.appendChild(card);
   });
 
-  // رسم الجدول الكامل وترتيب المراكز تصاعدياً حسب موقع اللاعب في القائمة المرتبة
+  // رسم الجدول الكامل
   tbody.innerHTML = "";
   const filtered = sorted.filter(p => (p.name + " " + p.region + " " + (p.id || "")).toLowerCase().includes(q));
   
@@ -380,11 +364,11 @@ function render() {
        <div class="player-id">ID: ${esc(p.id || "9999999")}</div>
        <button class="copy-id" type="button" data-copy-id="${esc(p.id || "9999999")}">📋 نسخ الـ ID</button>
        <div class="vote-box">
-         <button class="vote-btn" type="button" title="صوت للأعلى" onclick="castVote('${p.id}', 'up')">⬆️</button>
-         <span class="vote-count-up" title="الأسهم للأعلى">${v.up}</span>
+         <button class="vote-btn" type="button" title="إعجاب" aria-label="إعجاب" onclick="castVote('${p.id}', 'up')">👍</button>
+         <span class="vote-count-up" title="عدد الإعجابات">${v.up}</span>
          <span class="vote-divider">|</span>
-         <button class="vote-btn" type="button" title="صوت للأسفل" onclick="castVote('${p.id}', 'down')">⬇️</button>
-         <span class="vote-count-down" title="الأسهم للأسفل">${v.down}</span>
+         <button class="vote-btn" type="button" title="عدم إعجاب" aria-label="عدم إعجاب" onclick="castVote('${p.id}', 'down')">👎</button>
+         <span class="vote-count-down" title="عدد عدم الإعجاب">${v.down}</span>
        </div>
      </td>
      <td><div class="scorebox"><span class="score">${empty ? "—" : p.score.toFixed(1) + "/10"}</span><span class="bar"><i style="width:${bar}%"></i></span></div></td>
@@ -393,7 +377,7 @@ function render() {
   });
 }
 
-// تفعيل أزرار التبويبات بين الترتيب الرسمي وتصنيف الجمهور
+// تفاعل أزرار التبويبات
 document.getElementById("tabOfficial").addEventListener("click", () => {
   currentMode = "official";
   document.getElementById("tabOfficial").classList.add("active");
@@ -426,7 +410,7 @@ document.addEventListener("click", async e => {
   } catch (err) { btn.textContent = "انسخ يدويًا: " + value; }
 });
 
-// بدء التشغيل ومزامنة قاعدة البيانات
+// تشغيل النظام وجلب الأصوات
 initVotes();
 </script>
 </body>
